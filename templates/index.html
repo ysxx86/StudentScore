@@ -90,9 +90,14 @@
                 <option value="6">六年级</option>
             </select><br>
             <input type="file" id="fileInput" accept=".xls,.xlsx" style="display: none">
-            <button onclick="document.getElementById('fileInput').click()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                选择Excel文件
-            </button>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button onclick="document.getElementById('fileInput').click()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    选择本地Excel文件
+                </button>
+                <button onclick="openWeChatFolder()" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    从微信文件选择
+                </button>
+            </div>
             <p style="margin-top: 10px; color: #666;">支持.xls和.xlsx格式的Excel文件</p>
         </div>
 
@@ -134,6 +139,16 @@
     </div>
 
     <script>
+        function openWeChatFolder() {
+            const input = document.getElementById('fileInput');
+            input.setAttribute('webkitdirectory', '');
+            input.setAttribute('directory', '');
+            input.click();
+            // 选择完成后恢复普通文件选择模式
+            input.removeAttribute('webkitdirectory');
+            input.removeAttribute('directory');
+        }
+
         document.getElementById('gradeSelect').addEventListener('change', function() {
             const fileInput = document.getElementById('fileInput');
             if (fileInput.files.length > 0) {
