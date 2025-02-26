@@ -134,6 +134,15 @@
     </div>
 
     <script>
+        document.getElementById('gradeSelect').addEventListener('change', function() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length > 0) {
+                // 触发文件重新上传
+                const event = new Event('change');
+                fileInput.dispatchEvent(event);
+            }
+        });
+
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
