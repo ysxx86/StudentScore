@@ -161,17 +161,34 @@
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
-
+        
             const grade = document.getElementById('gradeSelect').value;
             if (!grade) {
                 showError('请选择年级');
                 return;
             }
-
+        
+            // 检查文件大小
+            const maxSize = 16 * 1024 * 1024; // 16MB
+            if (file.size > maxSize) {
+                showError(`文件大小超过限制（最大16MB）`);
+                return;
+            }
+        
+            // 检查文件类型
+            const fileType = file.name.toLowerCase();
+            if (!fileType.endsWith('.xls') && !fileType.endsWith('.xlsx')) {
+                showError('请上传Excel文件（.xls或.xlsx格式）');
+                return;
+            }
+        
             const formData = new FormData();
             formData.append('file', file);
             formData.append('grade', grade);
-
+        
+            // 显示加载状态
+            showError('正在处理文件，请稍候...');
+        
             fetch('/upload', {
                 method: 'POST',
                 body: formData
@@ -185,7 +202,7 @@
                 showResults(data);
             })
             .catch(error => {
-                showError('上传文件时发生错误');
+                showError('上传文件时发生错误，请检查文件格式是否正确');
             });
         });
 
