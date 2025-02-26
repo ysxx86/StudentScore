@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 import pandas as pd
 import os
 from werkzeug.utils import secure_filename
@@ -64,7 +64,7 @@ def analyze_scores(file_path, grade):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return send_file('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
